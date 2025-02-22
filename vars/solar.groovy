@@ -32,7 +32,7 @@ def call(String agentLabel, String nodejsVersion) {
                                     --out \'./\'  
                                     --format \'ALL\' 
                                     --disableYarnAudit \
-                                    --disableUpdate
+                                    --noupdate
                                     --prettyPrint''', odcInstallation: 'OWASP-DP-10'
                             }
                     }
