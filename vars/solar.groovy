@@ -32,8 +32,9 @@ def call(String agentLabel, String nodejsVersion) {
                                     --out \'./\'  
                                     --format \'ALL\' 
                                     --disableYarnAudit \
-                                    --noupdate
                                     --prettyPrint''', odcInstallation: 'OWASP-DP-10'
+
+                                dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
                             }
                     }
                 }
