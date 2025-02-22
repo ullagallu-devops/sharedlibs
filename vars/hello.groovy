@@ -1,7 +1,11 @@
-def call(String agentLabel) {
+def call(String agentLabel, String nodejsVersion) {
     pipeline {
         agent {
             label agentLabel
+        }
+        
+        tools {
+            nodejs nodejsVersion
         }
 
         stages {
@@ -10,9 +14,11 @@ def call(String agentLabel) {
                     echo 'Hello World'
                 }
             }
-            stage('docker version') {
+            stage('Check Versions') {
                 steps {
-                    sh "docker version"
+                    sh 'node -v'
+                    sh 'npm -v'
+                    sh 'docker version'
                 }
             }
         }
