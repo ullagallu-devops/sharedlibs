@@ -15,7 +15,7 @@ def call(String agentLabel, String nodejsVersion) {
                 }
             }
             stage("Dependency Scanning Parallel"){
-                Parallel{
+                 parallel{
                     stage('NPM Dependency Audit') {
                         steps {
                             sh '''
