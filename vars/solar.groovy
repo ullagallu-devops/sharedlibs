@@ -9,11 +9,9 @@ def call(String agentLabel, String nodejsVersion) {
         }
 
         stages {
-            stage('Check Versions') {
+            stage('Install Dependencies') {
                 steps {
-                    sh 'node -v'
-                    sh 'npm -v'
-                    sh 'docker version'
+                    sh 'npm install --no-audit'
                 }
             }
         }
