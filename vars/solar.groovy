@@ -14,8 +14,6 @@ def call(String agentLabel, String nodejsVersion) {
                     sh 'npm install --no-audit'
                 }
             }
-        }
-        stages {
             stage('NPM Dependency Audit') {
                 steps {
                     sh '''
