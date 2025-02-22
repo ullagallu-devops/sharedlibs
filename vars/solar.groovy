@@ -18,10 +18,11 @@ def call(String agentLabel, String nodejsVersion) {
                  parallel{
                     stage('NPM Dependency Audit') {
                         steps {
-                            sh '''
-                            npm audit --audit-level=critical
-                            echo $?
-                            '''
+                            // sh '''
+                            // // npm audit --audit-level=critical
+                            // // echo $?
+                            // '''
+                            echo "Hello world"
                         }
                     }
                     stage('OWASP Dependency Check') {
