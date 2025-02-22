@@ -14,13 +14,23 @@ def call(String agentLabel, String nodejsVersion) {
                     sh 'npm install --no-audit'
                 }
             }
-            stage('NPM Dependency Audit') {
-                steps {
-                    sh '''
-                    npm audit --audit-level=critical
-                    echo $?
-                    '''
-                }
+            // stage('NPM Dependency Audit') {
+            //     steps {
+            //         sh '''
+            //         npm audit --audit-level=critical
+            //         echo $?
+            //         '''
+            //     }
+            // }
+            stage('OWASP Dependency Check') {
+                    steps {
+                        dependencyCheck additionalArguments: '''
+                            --scan \'./\' 
+                            --out \'./\'  
+                            --format \'ALL\' 
+                            --disableYarnAudit \
+                            --prettyPrint''', odcInstallation: 'OWASP-DP-10'
+                    }
             }
         }
         post {
