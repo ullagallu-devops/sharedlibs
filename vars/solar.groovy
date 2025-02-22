@@ -15,6 +15,16 @@ def call(String agentLabel, String nodejsVersion) {
                 }
             }
         }
+        stages {
+            stage('NPM Dependency Audit') {
+                steps {
+                    sh '''
+                    npm audit --audit-level=critical'
+                    echo $?
+                    '''
+                }
+            }
+        }
         post {
             always {
                 cleanWs()
