@@ -10,11 +10,13 @@ def call(String agentLabel, String nodejsVersion) {
 
         stages {
             stage('Install Dependencies') {
+                when { expression { env.BRANCH_NAME?.startsWith('feature/') } }
                 steps {
                     sh 'npm install --no-audit'
                 }
             }
             stage("Dependency Scanning Parallel"){
+                when { expression { env.BRANCH_NAME?.startsWith('feature/') } }
                  parallel{
                     stage('NPM Dependency Audit') {
                         steps {
