@@ -15,6 +15,13 @@ def call(String agentLabel, String nodejsVersion) {
                     sh 'npm install --no-audit'
                 }
             }
+            stage('Debug Branch Name') {
+                steps {
+                    script {
+                        echo "Branch Name: ${env.BRANCH_NAME}"
+                    }
+                }
+            }
             stage("Dependency Scanning Parallel"){
                 when { expression { env.BRANCH_NAME?.startsWith('feature/') } }
                  parallel{
