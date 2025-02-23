@@ -3,6 +3,11 @@ def call(String agentLabel, String nodejsVersion) {
         agent {
             label agentLabel
         }
+
+        environment {
+            NVD_API_KEY = credentials('NVD_API_KEY')
+        }
+
         
         tools {
             nodejs nodejsVersion
@@ -30,7 +35,8 @@ def call(String agentLabel, String nodejsVersion) {
                                 --out \'./\'  
                                 --format \'ALL\' 
                                 --disableYarnAudit \
-                                --prettyPrint''', odcInstallation: 'OWASP-DP-10'
+                                --prettyPrint \
+                                --nvdApiKey ${NVD_API_KEY}''', odcInstallation: 'OWASP-DP-10'
 
                             dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
                         }
