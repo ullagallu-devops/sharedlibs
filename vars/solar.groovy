@@ -9,22 +9,23 @@ def call(String agentLabel, String nodejsVersion) {
         }
 
         stages {
+            stage('Debug Branch Name') {
+                steps {
+                    script {
+                        echo "Detected Branch Name: ${env.BRANCH_NAME}"
+                        echo "Detected Git Branch: ${env.GIT_BRANCH}"
+                    }
+                }
+            }
             stage('Install Dependencies') {
-                when { expression { env.BRANCH_NAME?.startsWith('feature/') } }
+                when { expression { env.BRANCH_NAME?.startsWith('feature/') || env.GIT_BRANCH?.startsWith('feature/') } }
                 steps {
                     sh 'npm install --no-audit'
                 }
             }
-            stage('Debug Branch Name') {
-                steps {
-                    script {
-                        echo "Branch Name: ${env.BRANCH_NAME}"
-                    }
-                }
-            }
             stage("Dependency Scanning Parallel"){
-                when { expression { env.BRANCH_NAME?.startsWith('feature/') } }
-                 parallel{
+                when { expression { env.BRANCH_NAME?.startsWith('feature/') || env.GIT_BRANCH?.startsWith('feature/') } }
+                parallel {
                     stage('NPM Dependency Audit') {
                         steps {
                             sh '''
@@ -34,16 +35,16 @@ def call(String agentLabel, String nodejsVersion) {
                         }
                     }
                     stage('OWASP Dependency Check') {
-                            steps {
-                                dependencyCheck additionalArguments: '''
-                                    --scan \'./\' 
-                                    --out \'./\'  
-                                    --format \'ALL\' 
-                                    --disableYarnAudit \
-                                    --prettyPrint''', odcInstallation: 'OWASP-DP-10'
+                        steps {
+                            dependencyCheck additionalArguments: '''
+                                --scan \'./\' 
+                                --out \'./\'  
+                                --format \'ALL\' 
+                                --disableYarnAudit \
+                                --prettyPrint''', odcInstallation: 'OWASP-DP-10'
 
-                                dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
-                            }
+                            dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
+                        }
                     }
                 }
             }
