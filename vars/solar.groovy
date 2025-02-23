@@ -36,8 +36,8 @@ def call(String agentLabel, String nodejsVersion) {
                                 --format \'ALL\' 
                                 --disableYarnAudit \
                                 --prettyPrint \
-                                --nvdApiKey ${NVD_API_KEY}''', odcInstallation: 'OWASP-DP-10'
-
+                                --nvdApiKey ${NVD_API_KEY} \
+                                --nvdApiDelay 5000''', odcInstallation: 'OWASP-DP-10'
                             dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
                         }
                     }
