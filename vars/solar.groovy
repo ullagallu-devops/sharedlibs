@@ -3,12 +3,6 @@ def call(String agentLabel, String nodejsVersion) {
         agent {
             label agentLabel
         }
-
-        // environment {
-        //     NVD_API_KEY = credentials('NVD_API_KEY')
-        // }
-
-        
         tools {
             nodejs nodejsVersion
         }
